@@ -1,92 +1,92 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+    file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: iZiSwapFactory
-    network: mode
-    source:
-      abi: iZiSwapFactory
-      address: "0x8c7d3063579BdB0b90997e18A770eaE32E1eBb08"
-      startBlock: 5123740
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./src/factory.ts
-      entities:
-        - Pool
-        - Token
-      abis:
-        - name: iZiSwapFactory
-          file: ./abis/iZiSwapFactory.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20BytesMethod
-          file: ./abis/ERC20BytesMethod.json
-        - name: Pool
-          file: ./abis/iZiSwapPool.json
-      eventHandlers:
-        - event: NewPool(indexed address,indexed address,indexed uint24,uint24,address)
-          handler: handleNewPool
-  - kind: ethereum
-    name: iZiSwapLiquidityManager
-    network: mode
-    source:
-      abi: iZiSwapLiquidityManager
-      address: "0x19b683A2F45012318d9B2aE1280d68d3eC54D663"
-      startBlock: 5123740
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./src/liquidityManager.ts
-      entities:
-        - Liquidity
-      abis:
-        - name: iZiSwapLiquidityManager
-          file: ./abis/iZiSwapLiquidityManager.json
-        - name: iZiSwapFactory
-          file: ./abis/iZiSwapFactory.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-        - name: ERC20BytesMethod
-          file: ./abis/ERC20BytesMethod.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleNftTransfer
-        - event: AddLiquidity(indexed uint256,address,uint128,uint256,uint256)
-          handler: handleAddLiquidity
-        - event: DecLiquidity(indexed uint256,address,uint128,uint256,uint256)
-          handler: handleDecLiquidity
+    - kind: ethereum
+      name: iZiSwapFactory
+      network: scroll
+      source:
+          abi: iZiSwapFactory
+          address: '0x8c7d3063579BdB0b90997e18A770eaE32E1eBb08'
+          startBlock: 5123740
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.7
+          language: wasm/assemblyscript
+          file: ./src/factory.ts
+          entities:
+              - Pool
+              - Token
+          abis:
+              - name: iZiSwapFactory
+                file: ./abis/iZiSwapFactory.json
+              - name: ERC20
+                file: ./abis/ERC20.json
+              - name: ERC20BytesMethod
+                file: ./abis/ERC20BytesMethod.json
+              - name: Pool
+                file: ./abis/iZiSwapPool.json
+          eventHandlers:
+              - event: NewPool(indexed address,indexed address,indexed uint24,uint24,address)
+                handler: handleNewPool
+    - kind: ethereum
+      name: iZiSwapLiquidityManager
+      network: scroll
+      source:
+          abi: iZiSwapLiquidityManager
+          address: '0x19b683A2F45012318d9B2aE1280d68d3eC54D663'
+          startBlock: 5123740
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.7
+          language: wasm/assemblyscript
+          file: ./src/liquidityManager.ts
+          entities:
+              - Liquidity
+          abis:
+              - name: iZiSwapLiquidityManager
+                file: ./abis/iZiSwapLiquidityManager.json
+              - name: iZiSwapFactory
+                file: ./abis/iZiSwapFactory.json
+              - name: ERC20
+                file: ./abis/ERC20.json
+              - name: ERC20BytesMethod
+                file: ./abis/ERC20BytesMethod.json
+          eventHandlers:
+              - event: Transfer(indexed address,indexed address,indexed uint256)
+                handler: handleNftTransfer
+              - event: AddLiquidity(indexed uint256,address,uint128,uint256,uint256)
+                handler: handleAddLiquidity
+              - event: DecLiquidity(indexed uint256,address,uint128,uint256,uint256)
+                handler: handleDecLiquidity
 templates:
-  - kind: ethereum/contract
-    name: Pool
-    network: mode
-    source:
-      abi: Pool
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      file: ./src/swap.ts
-      entities:
-        - Pool
-        - Token
-      abis:
-        - name: Pool
-          file: ./abis/iZiSwapPool.json
-        - name: Factory
-          file: ./abis/iZiSwapFactory.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-      eventHandlers:
-        - event: Swap(indexed address,indexed address,indexed
-            uint24,bool,uint256,uint256,int24)
-          handler: handleSwap
-        - event: Mint(address,indexed address,indexed int24,indexed
-            int24,uint128,uint256,uint256)
-          handler: handleMint
-        - event: Burn(indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
-          handler: handleBurn
-          receipt: true
+    - kind: ethereum/contract
+      name: Pool
+      network: scroll
+      source:
+          abi: Pool
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.7
+          language: wasm/assemblyscript
+          file: ./src/swap.ts
+          entities:
+              - Pool
+              - Token
+          abis:
+              - name: Pool
+                file: ./abis/iZiSwapPool.json
+              - name: Factory
+                file: ./abis/iZiSwapFactory.json
+              - name: ERC20
+                file: ./abis/ERC20.json
+          eventHandlers:
+              - event: Swap(indexed address,indexed address,indexed
+                    uint24,bool,uint256,uint256,int24)
+                handler: handleSwap
+              - event: Mint(address,indexed address,indexed int24,indexed
+                    int24,uint128,uint256,uint256)
+                handler: handleMint
+              - event: Burn(indexed address,indexed int24,indexed int24,uint128,uint256,uint256)
+                handler: handleBurn
+                receipt: true
